@@ -1,0 +1,135 @@
+#pragma once
+
+//----------------------------------------------------------------------------
+//{ My own drawing line function:
+//----------------------------------------------------------------------------
+
+    /*
+	void line(const Vector start, const Vector finish, const COLORREF color)
+	{
+		// Bresenham's line algorithm:
+
+		if (start.x() < finish.x())
+		{
+			double lineCoeffitient = (finish.y() - start.y()) / (finish.x() - start.x()) * 2;
+
+			double normalY = start.y() * 2;
+			double currentY = start.y();
+
+			for (double currentX = start.x(); currentX <= finish.x(); currentX++, normalY += lineCoeffitient)
+			{
+				assert(currentX <= finish.x());
+
+				double error = (currentY * 2) - normalY;
+
+				txSetPixel(currentX, currentY, color);
+
+				if (error < -1)
+				{
+					do
+					{
+						txSetPixel(currentX, currentY, color);
+
+						error += 2;
+						currentY++;
+
+					} while (error < -1);
+				}
+				else if (error > 1)
+				{
+					do
+					{
+						txSetPixel(currentX, currentY, color);
+
+						error -= 2;
+						currentY--;
+
+					} while (1 < error);
+				}
+
+				if (txMouseButtons() == 1) printf("%f\n", error);
+
+			}
+		}
+		else if (start.x() == finish.x())
+		{
+			for (double currentY = start.y();
+			(start.y() <= currentY && currentY <= finish.y()) ||
+				(start.y() >= currentY && currentY >= finish.y());
+				currentY += (start.y() <= finish.y()) ? 1 : -1)
+			{
+				txSetPixel(start.x(), currentY, color);
+			}
+		}
+		else line(finish, start, color);
+	}
+    */
+
+    void line(const int x0, const int y0, const int x1, const int y1, const COLORREF color)
+    {
+        if (x0 < x1)
+        {
+            int lineCoeffitient = (y1 - y0)/(x1 - x0) << 1;
+
+            int normalY = y0 << 1;
+            int currentY = y0;
+            for (int currentX = x0; currentX <= x1; currentX++, normalY += lineCoeffitient)
+            {
+                assert(currentX <= x1);
+
+                txSetPixel(currentX, currentY, color);
+
+                int error = (currentY << 1) - normalY;
+
+                if (error < 0)
+                {
+                    do
+                    {
+                        txSetPixel(currentX, currentY, color);
+
+                        error += 2;
+                        currentY++;
+                    } while (error < -1);
+                }
+                else
+                {
+                    do
+                    {
+                        txSetPixel(currentX, currentY, color);
+
+                        error -= 2;
+                        currentY--;
+                    } while (1 < error);
+                }
+            }
+        }
+        else if (x0 == x1)
+        {
+            if (y0 <= y1)
+            {
+                for (int y = y0; y <= y1; y++) txSetPixel(x0, y, color);
+            }
+            else
+            {
+                for (int y = y1; y <= y0; y++) txSetPixel(x0, y, color);
+            }
+        }
+        else line(x0, y0, x1, y1, color);
+    }
+
+	void line(const Vector start, const Vector finish, const Vector shift, const double parallax, const COLORREF color)
+	{
+		assert(start.ok());
+		assert(finish.ok());
+		assert(shift.ok());
+
+        Vector fixedStart  =  start.perspectived(parallax) + shift;
+        Vector fixedFinish = finish.perspectived(parallax) + shift;
+
+		line(static_cast<int>fixedStart .x()), fixedStart .y(),
+             fixedFinish.x(), fixedFinish.y(), color);
+	}
+
+//}
+//----------------------------------------------------------------------------
+

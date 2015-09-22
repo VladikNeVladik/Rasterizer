@@ -1,0 +1,179 @@
+#pragma once
+
+#include <cstdarg>
+
+//----------------------------------------------------------------------------
+//{ Vector
+//----------------------------------------------------------------------------
+
+    struct Vector
+    {
+        public:
+
+            // Functions:
+
+                double length() const;
+
+                Vector normalized() const;
+                Vector& normalize();
+
+                Vector perspective(double parallax = 1) const;
+
+            // Operators:
+
+                Vector operator-() const;
+
+                Vector& operator+=(const Vector& vector);
+                Vector& operator-=(const Vector& vector);
+
+                Vector operator+(const Vector& vector) const;
+                Vector operator-(const Vector& vector) const;
+
+                Vector& operator*=(double koefficient);
+                Vector& operator/=(double koefficient);
+
+                Vector operator*(double koefficient) const;
+                Vector operator/(double koefficient) const;
+
+                double operator*(const Vector& vector) const;
+
+        // Variables:
+
+            double x, y, z;
+    };
+
+
+    //----------------------------------------------------------------------------
+    //{ Functions
+    //----------------------------------------------------------------------------
+
+        double Vector::length() const
+        {
+            return sqrt(x * x + y * y + z * z);
+        }
+
+        Vector Vector::normalized() const
+        {
+            double vectorLength = length();
+
+            return {x / vectorLength, y / vectorLength, z / vectorLength};
+        }
+
+        Vector& Vector::normalize()
+        {
+            double vectorLength = length();
+
+            x /= vectorLength;
+            y /= vectorLength;
+            z /= vectorLength;
+
+            return *this;
+        }
+
+        Vector& Vector::rotate(Vector angles)
+        {
+            
+        }
+
+        Vector Vector::perspective(double parallax /*= 1*/) const
+        {
+            return {parallax * x / z, parallax * y / z, 1};
+        }
+
+    //}
+    //-----------------------------------------------------------------------------
+
+
+    //----------------------------------------------------------------------------
+    //{ Operators
+    //----------------------------------------------------------------------------
+
+        Vector Vector::operator-() const
+        {
+            return {-x, -y, -z};
+        }
+
+        Vector& Vector::operator+=(const Vector& vector)
+        {
+            x += vector.x;
+            y += vector.y;
+            z += vector.z;
+
+            return *this;
+        }
+
+        Vector& Vector::operator-=(const Vector& vector)
+        {
+            x -= vector.x;
+            y -= vector.y;
+            z -= vector.z;
+
+            return *this;
+        }
+
+        Vector Vector::operator+(const Vector& vector) const
+        {
+            Vector toReturn = *this;
+
+            toReturn += vector;
+
+            return toReturn;
+        }
+
+        Vector Vector::operator-(const Vector& vector) const
+        {
+            Vector toReturn = *this;
+
+            toReturn -= vector;
+
+            return toReturn;
+        }
+
+        Vector& Vector::operator*=(double koefficient)
+        {
+            x *= koefficient;
+            y *= koefficient;
+            z *= koefficient;
+
+            return *this;
+        }
+
+        Vector Vector::operator*(double koefficient) const
+        {
+            Vector toReturn = *this;
+
+            toReturn *= koefficient;
+
+            return toReturn;
+        }
+
+        Vector& Vector::operator/=(double koefficient)
+        {
+            x /= koefficient;
+            y /= koefficient;
+            z /= koefficient;
+
+            return *this;
+        }
+
+        Vector Vector::operator/(double koefficient) const
+        {
+            Vector toReturn = *this;
+
+            toReturn /= koefficient;
+
+            return toReturn;
+        }
+
+        double Vector::operator*(const Vector& vector) const
+        {
+            return (x * vector.x + y * vector.y + z * vector.z);
+        }
+
+    //}
+    //-----------------------------------------------------------------------------
+
+
+//}
+//-----------------------------------------------------------------------------
+
