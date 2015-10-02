@@ -23,16 +23,15 @@
 //----------------------------------------------------------------------------
 
 #include <stdio.h>
+#include <fstream>
 
 #include "headers/TXLib.h"
 
-#include "headers/Matrix.h"
-#include "headers/Vector.h"
+#include "headers/mechanics/Matrix.h"
+#include "headers/mechanics/Vector.h"
 
-#include "headers/Triangle.h"
-
-#include "headers/Model.h"
-#include "headers/Rendering.h"
+#include "headers/graphics/Rendering.h"
+#include "headers/graphics/Model.h"
 
 //}
 //----------------------------------------------------------------------------
@@ -54,6 +53,6 @@
 		}
 	}
 
-	//}
-	//----------------------------------------------------------------------------
+//}
+//----------------------------------------------------------------------------
 
